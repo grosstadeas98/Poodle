@@ -1,12 +1,59 @@
 <?php
+header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
+?>
+<head>
+<div class="menu">
+  <a href="index.php">STAHOVÁNÍ</a>
+  <a class="active" href="upload.php">NAHRÁVÁNÍ</a>
+  <a href="#login">PØIHLÁŠENÍ</a>
+  <a href="#join">REGISTRACE</a>
+</div>
+<style>
+/* Add a black background color to the top navigation */
+.a  {
+    font-size: 100px;
+}
+.menu {
+    background-color: #891cb7;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.menu a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.menu a:hover {
+    background-color: #9c63b5; 
+    color: white;
+}
+
+/* Add a color to the active/current link */
+.menu a.active {
+    background-color: #53146e;
+    color: white;  
+}
+
+</style>
+</head>
+<?php
 echo "<font size='18'>";
 echo 'Nahrávání souborù';
 echo "</font>";
 echo "<p>";
+
+
 $target_dir = "uploaded/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$target_file = $target_dir . $_POST["cathegory"] . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
+$loadedOk = 1;
 $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 if(isset($_POST["submit"])) {
     $check = filesize($_FILES["fileToUpload"]["tmp_name"]);   
@@ -18,30 +65,44 @@ if(isset($_POST["submit"])) {
     } else {
         echo "Nevybrali jste soubor.";
         echo "<p>";
-        $uploadOk = 0;
+        $loadedOk = 0;
     }
 }
 if (file_exists($target_file)) {
-    echo "<p>";
-    echo "Soubor již existuje.";
-    $uploadOk = 0; }
+
+    $uploadOk = 2; }
     
-if ($_FILES["fileToUpload"]["size"] > 50000000) {
-    echo "<p>";
-    echo "Váš soubor má pøíliš vysokou velikost (<50MB)";
-    $uploadOk = 0;
+if ($_FILES["fileToUpload"]["size"] > 5000000) {
+    $uploadOk = 3;
 }
     
-if($fileType != "jpg" && $fileType != "png" && $fileType != "jpeg" && $fileType != "docx" && $fileType != "txt" && $fileType != "pdf" && $fileType != "rtf" ) {
+if($fileType != "doc" && $fileType != "jpg" && $fileType != "png" && $fileType != "jpeg" && $fileType != "docx" && $fileType != "txt" && $fileType != "pdf" && $fileType != "rtf" ) {
+    $uploadOk = 4; }
+
+if ($loadedOk == 0) {
+    echo "<p>";
+    echo "Omlouváme se, ale váš soubor nemùžeme nahrát.";
+
+} 
+elseif ($uploadOk == 2) {
+    echo "<p>";
+    echo "Soubor již existuje.";
+    echo "<p>";
+    echo "Omlouváme se, ale váš soubor nemùžeme nahrát.";
+}
+elseif ($uploadOk == 3) {
+    echo "<p>";
+    echo "Váš soubor má pøíliš vysokou velikost (<5MB)";
+    echo "<p>";
+    echo "Omlouváme se, ale váš soubor nemùžeme nahrát.";
+}
+elseif ($uploadOk == 4) {
     echo "<p>";
     echo "Váš soubor má nepodporovaný formát. Podoporované: PNG,JPG,JPEG,DOCX,TXT,PDF,RTF";
-    $uploadOk = 0; }
-
-if ($uploadOk == 0) {
     echo "<p>";
-    echo "Omlouváme se, ale váš soubor nemùžeme nahrát";
-
-} else {
+    echo "Omlouváme se, ale váš soubor nemùžeme nahrát.";
+}
+else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "<p>";
         echo "Váš soubor ". basename( $_FILES["fileToUpload"]["name"]). " byl úspìšnì nahrán na server. Dìkujeme!";
@@ -52,6 +113,8 @@ if ($uploadOk == 0) {
 }
 
 ?>    
+
+
 
 <!DOCTYPE html>
 <html>
