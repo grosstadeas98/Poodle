@@ -5,6 +5,11 @@ header("Content-Type: text/html; charset=windows-1250");
 
 
 echo " <a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a>";
+
+if(file_exists("./uploaded/") !== True) {
+  echo "<a href='startup.php'> Setup </a>";
+}
+
 ?>
 <head>
 <div class="menu">
