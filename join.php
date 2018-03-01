@@ -3,6 +3,7 @@ header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
 ?>
 <head>
+
 <div class="menu">
   <a href="index.php">STAHOVÁNÍ</a>
   <a href="upload.php">NAHRÁVÁNÍ</a>
