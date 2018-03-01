@@ -9,6 +9,26 @@ echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a class="active" href="join.php">REGISTRACE</a>
 </div>
+ <p>
+REGISTRACE
+ <p>
+<form id="register" action="join.php" method="post">
+<input type="hidden" name="submitted" id="submitted" value="1">
+Vaše jméno a pøíjmení:
+<input type="text" name="name" id="name" maxlenght ="50">
+ <p>
+Vaše emailová adresa:
+<input type="text" name="mail" id="mail" maxlenght ="50">
+ <p>
+Vaše pøihlašovací jméno
+<input type="nic" name="nick" id="nick" maxlenght ="15">
+ <p>
+Vaše heslo:
+<input type="password" name="pass" id="pass" maxlenght ="20">
+ <p>
+ <input type="submit" name="submit" value="Potvrdit">
+</form>
+
 <style>
 /* Add a black background color to the top navigation */
 .a  {
