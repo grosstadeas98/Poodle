@@ -137,7 +137,11 @@ if (isset($_POST['submit'])) {
         $hashOptions = [
           'cost' => 11,
         ];
-            echo password_hash($passSalted, PASSWORD_BCRYPT, $hashOptions);
+        $resultHash = password_hash($passSalted, PASSWORD_BCRYPT, $hashOptions);
+        
+        $sql = "INSERT INTO poodle . userlogininformation (username, passwordHash, firstLastName, email, accountBalance) VALUES ('" . htmlspecialchars($nick) . "' ,'" . $resultHash . "','" . htmlspecialchars($name, ENT_QUOTES,'ISO-8859-1') . "','" . htmlspecialchars($mail) ."', '0');"  ;
+        echo $sql;
+        
       
       
       }    
