@@ -1,4 +1,7 @@
+ 
 <?php
+session_start();
+
 header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
 ?>
@@ -58,4 +61,54 @@ Vaše heslo:
 }
 
 </style>
+<?php
+if (isset($_SESSION["username"])) {
+  header("Location: loggedon.php");
+  die;
+  }
+
+
+$servername = "localhost";
+$username = "root";
+$conn = new mysqli($servername, $username);
+
+if ($conn->connect_error) {
+  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
+}
+
+
+
+if (isset($_POST['submit'])) {
+  $input_login = $_POST['name'];    
+  $input_password = $_POST['pass'];
+
+  $sql = "SELECT email FROM poodle.userlogininformation WHERE username = '$input_login';";
+  $result = $conn->query($sql);
+  $count = mysqli_num_rows($result);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+  if($count == 1){
+    $resultHash = md5($input_password . $row['email']);
+    $sql = "SELECT id FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($input_login) . "' and passwordHash = '$resultHash';";
+    /**echo $sql;**/
+    $resultFinal = $conn->query($sql);
+    $countFinal = mysqli_num_rows($resultFinal);
+    $rowFinal = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    
+    if($countFinal == 1){
+       $_SESSION["username"] = $input_login;
+       $_SESSION["passwordHash"] = $resultHash; 
+    }
+    else{
+      echo "Zadal jste špatné uivatelské jméno nebo heslo.";    
+    }    
+  }else{
+    echo "Zadal jste špatné uivatelské jméno nebo heslo.";
+}
+
+}
+
+?>
+
+
 </head>

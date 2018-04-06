@@ -72,6 +72,14 @@ Prokažte, že jste èlovìk:
 
 <?php
 
+        $passSalted = "aaaaaaaaa54321g";
+        $hashOptions = [
+          'cost' => 11,
+        ];
+        $resultHash = password_hash($passSalted, PASSWORD_BCRYPT, $hashOptions);
+
+
+
 $servername = "localhost";
 $username = "root";
 $conn = new mysqli($servername, $username);
@@ -136,12 +144,7 @@ if (isset($_POST['submit'])) {
       if($makeAccountOK == 0){
       /** Zahashování funkce**/
         /** Do hashe pøidám salt, pomocí pøidání øetìzce mailu **/
-        $passSalted = $pass . $mail;
-        $hashOptions = [
-          'cost' => 11,
-        ];
-        $resultHash = password_hash($passSalted, PASSWORD_BCRYPT, $hashOptions);
-        
+        $resultHash = md5($pass . $mail);      
         $sql = "INSERT INTO poodle . userlogininformation (username, passwordHash, firstLastName, email, accountBalance) VALUES ('" . htmlspecialchars($nick) . "' ,'" . $resultHash . "','" . htmlspecialchars($name, ENT_QUOTES,'ISO-8859-1') . "','" . htmlspecialchars($mail) ."', 100);"  ;
         if ($conn->query($sql) === TRUE) {
           echo "Pøidání záznamu do databáze úspìšné";
@@ -158,6 +161,7 @@ if (isset($_POST['submit'])) {
 
    
   else {
+  
     echo("Potvrïte že nejste robot pomocí reCAPTCHA.") ;
     die;
   }
