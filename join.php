@@ -73,7 +73,8 @@ Prokažte, že jste èlovìk:
 <?php
 
 $servername = "localhost";
-$conn = new mysqli($servername);
+$username = "root";
+$conn = new mysqli($servername, $username);
 
 if ($conn->connect_error) {
   die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
@@ -128,19 +129,25 @@ if (isset($_POST['submit'])) {
           
       echo($makeAccountOK);
       
-      /** pro vytvoøení databáze: CREATE TABLE `poodle`.`userLoginInformation` ( `id` INT NOT NULL , `username` VARCHAR NOT NULL , `passwordHash` VARCHAR NOT NULL , `firstLastName` VARCHAR NOT NULL , `email` VARCHAR NOT NULL , `accountBalance` VARCHAR NOT NULL) ENGINE = InnoDB; **/
+      /** pro vytvoøení databáze: 
+       *CREATE DATABASE poodle CHARACTER SET utf8 COLLATE utf8_czech_ci;
+       *CREATE TABLE poodle.userLoginInformation(id INT PRIMARY KEY AUTO_INCREMENT NOT NULL , username VARCHAR(55) NOT NULL , passwordHash VARCHAR(100) NOT NULL , firstLastName VARCHAR(55) NOT NULL , email VARCHAR(55) NOT NULL , accountBalance INT NOT NULL) ENGINE = InnoDB; **/
       
       if($makeAccountOK == 0){
-      /** jsem solidní, tak to radši zahešuju**/
-        /** osolim to **/
+      /** Zahashování funkce**/
+        /** Do hashe pøidám salt, pomocí pøidání øetìzce mailu **/
         $passSalted = $pass . $mail;
         $hashOptions = [
           'cost' => 11,
         ];
         $resultHash = password_hash($passSalted, PASSWORD_BCRYPT, $hashOptions);
         
-        $sql = "INSERT INTO poodle . userlogininformation (username, passwordHash, firstLastName, email, accountBalance) VALUES ('" . htmlspecialchars($nick) . "' ,'" . $resultHash . "','" . htmlspecialchars($name, ENT_QUOTES,'ISO-8859-1') . "','" . htmlspecialchars($mail) ."', '0');"  ;
-        echo $sql;
+        $sql = "INSERT INTO poodle . userlogininformation (username, passwordHash, firstLastName, email, accountBalance) VALUES ('" . htmlspecialchars($nick) . "' ,'" . $resultHash . "','" . htmlspecialchars($name, ENT_QUOTES,'ISO-8859-1') . "','" . htmlspecialchars($mail) ."', 100);"  ;
+        if ($conn->query($sql) === TRUE) {
+          echo "Pøidání záznamu do databáze úspìšné";
+        } else {
+          echo "Chyba: " . $sql . "<br>" . $conn->error;
+        }
         
       
       
@@ -155,7 +162,7 @@ if (isset($_POST['submit'])) {
     die;
   }
   
-   
+ $conn->close();  
  }
 
  
