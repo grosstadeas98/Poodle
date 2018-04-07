@@ -3,6 +3,10 @@
 session_start();
 header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
+
+if (isset($_SESSION['username'])) {
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $_SESSION["balance"] . "</div>" ;	
+} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	} 
 ?>
 <head>
 <div class="menu">
@@ -23,6 +27,12 @@ echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360
 .menu {
     background-color: #891cb7;
     overflow: hidden;
+}
+
+
+.status {
+    text-align: right;
+    padding: 5px;
 }
 
 /* Style the links inside the navigation bar */

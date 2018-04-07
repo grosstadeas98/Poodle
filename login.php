@@ -1,10 +1,16 @@
- 
+
 <?php
 session_start();
 
 header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
+if (isset($_SESSION['username'])) {
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $_SESSION["balance"] . "</div>" ;	
+} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	} 
 ?>
+
+
+
 <head>
 <div class="menu">
   <a href="index.php">STAHOVÁNÍ</a>
@@ -32,6 +38,13 @@ Vaše heslo:
 .a  {
     font-size: 100px;
 }
+
+
+.status {
+    text-align: right;
+    padding: 5px;
+}
+
 .menu {
     background-color: #891cb7;
     overflow: hidden;
@@ -89,15 +102,18 @@ if (isset($_POST['submit'])) {
 
   if($count == 1){
     $resultHash = md5($input_password . $row['email']);
-    $sql = "SELECT id FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($input_login) . "' and passwordHash = '$resultHash';";
+    $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($input_login) . "' and passwordHash = '$resultHash';";
     /**echo $sql;**/
     $resultFinal = $conn->query($sql);
     $countFinal = mysqli_num_rows($resultFinal);
-    $rowFinal = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $rowFinal = mysqli_fetch_array($resultFinal,MYSQLI_ASSOC);
     
     if($countFinal == 1){
+       $accBalance = $rowFinal['accountBalance'];
+       echo "Byl jste úspìšnì pøihlášen. Vítej: <font color='purple'> ". $input_login . "</font>!";
        $_SESSION["username"] = $input_login;
        $_SESSION["passwordHash"] = $resultHash; 
+       $_SESSION["balance"] = $accBalance;
     }
     else{
       echo "Zadal jste špatné uživatelské jméno nebo heslo.";    

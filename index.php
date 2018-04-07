@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 header("Content-Type: text/html; charset=windows-1250");
 
@@ -8,8 +9,12 @@ echo " <a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '36
 
 if(file_exists("./uploaded/") !== True) {
   echo "<a href='startup.php'> Setup </a>";
-}
 
+
+}
+if (isset($_SESSION['username'])) {
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $_SESSION["balance"] . "</div>" ;	
+} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	} 
 ?>
 <head>
 <div class="menu">
@@ -22,6 +27,11 @@ if(file_exists("./uploaded/") !== True) {
 
 <style>
 /* MENU CSS */
+
+.status {
+    text-align: right;
+    padding: 5px;
+}
 
 .a  {
     font-size: 100px;
