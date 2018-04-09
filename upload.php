@@ -30,9 +30,18 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <?php
+  if (isset($_SESSION['username'])){
+  echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
+  } 
+  ?>
 </div>
 <style>
 /* Add a black background color to the top navigation */
+.menu a.logout {
+    float: right;
+    }
+
 .a  {
     font-size: 100px;
 }

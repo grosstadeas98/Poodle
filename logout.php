@@ -1,4 +1,3 @@
- 
 <?php
 session_start();
 $servername = "localhost";
@@ -8,8 +7,12 @@ $conn = new mysqli($servername, $username);
 if ($conn->connect_error) {
   die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
 }
+
 header("Content-Type: text/html; charset=windows-1250");
-echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
+
+
+
+echo " <a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a>";
 
 
 if (isset($_SESSION['username'])) {
@@ -20,28 +23,28 @@ if (isset($_SESSION['username'])) {
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
-<title>Poodle: Pøihlášení</title>
+<title>Poodle: Odhlášení</title>
 <div class="menu">
   <a href="index.php">STAHOVÁNÍ</a>
   <a href="upload.php">NAHRÁVÁNÍ</a>
-  <a class="active" href="login.php">PØIHLÁŠENÍ</a>
+  <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
-  <a href="toplist.php">NEJBOHATŠÍ</a>
-  <?php
-  if (isset($_SESSION['username'])){
-  echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
-  } 
-  ?>
+  <a class="active" href="toplist.php">NEJBOHATŠÍ</a>
+
 </div>
+<p>
 
-
-
- 
 <style>
+/* MENU CSS */
 .menu a.logout {
     float: right;
     }
-/* Add a black background color to the top navigation */
+
+.status {
+    text-align: right;
+    padding: 5px;
+}
+
 .a  {
     font-size: 100px;
 }
@@ -51,12 +54,6 @@ if (isset($_SESSION['username'])) {
 }
 
 
-.status {
-    text-align: right;
-    padding: 5px;
-}
-
-/* Style the links inside the navigation bar */
 .menu a {
     float: left;
     color: #f2f2f2;
@@ -67,36 +64,42 @@ if (isset($_SESSION['username'])) {
     font-family: "Verdana", Helvetica, sans-serif;
 }
 
-/* Change the color of links on hover */
+
 .menu a:hover {
     background-color: #9c63b5; 
     color: white;
 }
 
-/* Add a color to the active/current link */
+
 .menu a.active {
     background-color: #53146e;
     color: white;  
 }
 
+.titles {
+    font-size: 25px;
+    font-family: "Verdana", Helvetica, sans-serif;
+    border-bottom: 1px solid; 
+    border-bottom-color: #A1A1A1;  
+    }
+    
+/* KONEC MENU CSS */
+
+
 </style>
-<?php
-echo "<p>";
-echo "Jste již pøihlášen";
-echo "<p>";
 
-if (isset($_POST["submit"])) {
-  session_unset();
-  header("Location: login.php");
-  die;
-
-}
-?>
-<form action="" method="post"/>
-<input type="submit" name="submit" value="Odhlásit se"/>
-</form>
-<?php
-
-
-?>
 </head>
+
+
+<?php
+if(isset($_SESSION['username']) != TRUE) {
+  echo "Nastala chyba";
+  die;
+}
+
+session_unset();
+echo "Nyní jste odhlášen.";
+
+
+?>
+

@@ -4,6 +4,7 @@ $servername = "localhost";
 $username = "root";
 $conn = new mysqli($servername, $username);
 
+
 if ($conn->connect_error) {
   die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
 }
@@ -28,6 +29,7 @@ if (isset($_SESSION['username'])) {
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
+
 <title>Poodle</title>
 <div class="menu">
   <a class="active" href="index.php">STAHOVÁNÍ</a>
@@ -35,11 +37,19 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <?php
+  if (isset($_SESSION['username'])){
+  echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
+  } 
+  ?>
 </div>
 <p>
 
 <style>
 /* MENU CSS */
+.menu a.logout {
+    float: right;
+    }
 
 .status {
     text-align: right;
@@ -93,13 +103,7 @@ if (isset($_SESSION['username'])) {
 
 
 <?php
-$servername = "localhost";
-$username = "root";
-$conn = new mysqli($servername, $username);
 
-if ($conn->connect_error) {
-  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
-}
 
 /* FUNKCE PRO VÝPIS SOUBORÙ */
 
@@ -111,7 +115,7 @@ function PrintFiles($useddir, $location, $db) {
         $sqlName = "SELECT username FROM poodle.userlogininformation WHERE id = ". $rowAI['authorid'] . ";";
         $resultName = $db->query($sqlName);
         $rowName = mysqli_fetch_array($resultName,MYSQLI_ASSOC);
-        echo("<p><a href='./uploaded/". $location . "/" . $useddir[$i] . "'> " . $useddir[$i] . "</a> , Autor souboru: " . $rowName['username'] . ", Cena souboru: 25 PoodleCoinù.") ;
+        echo("<p><a href='./download.php?filename=". $location . "/" . $useddir[$i] . "&file=" . $useddir[$i] . "' > " . $useddir[$i] . "</a> , Autor souboru: " . $rowName['username'] . ", Cena souboru: 25 PoodleCoinù.") ;
 }}
 
 function MakeDir($folder)   {

@@ -30,6 +30,11 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a class="active" href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <?php
+  if (isset($_SESSION['username'])){
+  echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
+  } 
+  ?>
 </div>
  <p>
 REGISTRACE
@@ -63,6 +68,8 @@ Prokažte, že jste èlovìk:
 }
 
 
+
+
 .a  {
     font-size: 100px;
 }
@@ -81,6 +88,12 @@ Prokažte, že jste èlovìk:
     font-size: 17px;
     font-family: "Verdana", Helvetica, sans-serif; 
 }
+
+.menu a.logout {
+    float: right;
+    }
+
+
 
 /* Change the color of links on hover */
 .menu a:hover {

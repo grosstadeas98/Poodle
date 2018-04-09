@@ -4,6 +4,7 @@ $servername = "localhost";
 $username = "root";
 $conn = new mysqli($servername, $username);
 
+
 if ($conn->connect_error) {
   die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
 }
@@ -14,6 +15,11 @@ header("Content-Type: text/html; charset=windows-1250");
 
 echo " <a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a>";
 
+if(file_exists("./uploaded/") !== True) {
+  echo "<a href='startup.php'> Setup </a>";
+
+
+}
 
 if (isset($_SESSION['username'])) {
   $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
@@ -23,18 +29,14 @@ if (isset($_SESSION['username'])) {
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
-<title>Poodle: Nejbohatší</title>
+
+<title>Poodle</title>
 <div class="menu">
-  <a href="index.php">STAHOVÁNÍ</a>
+  <a class="active" href="index.php">STAHOVÁNÍ</a>
   <a href="upload.php">NAHRÁVÁNÍ</a>
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
-  <a class="active" href="toplist.php">NEJBOHATŠÍ</a>
-  <?php
-  if (isset($_SESSION['username'])){
-  echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
-  } 
-  ?>
+  <a href="toplist.php">NEJBOHATŠÍ</a>
 </div>
 <p>
 
@@ -96,24 +98,42 @@ if (isset($_SESSION['username'])) {
 
 
 <?php
+if (isset($_SESSION['username']) != TRUE) {
+echo "Pro stažení souborù musíte být pøihlášen!";
+die; 
+}
 
 
 
-echo "<font size='18'>";
-echo 'Žebøíèek nejbohatších';
-echo "</font>";
-echo "<p>";
-/** všimnìme si že jsou odstranìni admini**/
-$sql = "SELECT username, accountbalance FROM poodle.userlogininformation WHERE isadmin = 0 ORDER BY accountbalance DESC;" ;
-$result = $conn->query($sql);
-$count = mysqli_num_rows($result);
 
-$row = $result->fetch_array(MYSQLI_ASSOC);
-echo  "1. <font size=5 color= 'purple'>". $row['username'] . "</font> , se stavem úètu: " . $row['accountbalance'] . " PoodleCoinù. <br>";
 
-for($i = 2; $i <= $count; $i++)
-  {
-  $row = $result->fetch_array(MYSQLI_ASSOC);
-  echo $i . ". ". $row['username'] . " , se stavem úètu: " . $row['accountbalance'] . " PoodleCoinù. <br>";
+
+?>
+<form action="" method="post">
+Jste si jistí, že chcete stáhnout soubor: <?php echo "<font color='purple'>" . $_GET['file'] . "</font>" ?> za 25 PoodleCoinù? <p>
+<input type ="submit" name="submit" value="Ano">
+</form>
+
+<?php
+
+if (isset($_POST['submit'])) {
+  $sql = "SELECT accountbalance FROM poodle.userlogininformation WHERE id = " . $_SESSION['id'] . ";";
+  $result = $conn->query($sql);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  $paid = $row['accountbalance'] - 25;
+  $sqlPaid = "UPDATE poodle.userlogininformation SET accountbalance = " . $paid . " WHERE id = " . $_SESSION['id'] . ";";
+  if($conn->query($sqlPaid)){
+    $filename = $_GET['filename'];
+    echo $filename;
+    $file_url = './uploaded/' . $filename . "/";
+    echo $fileurl;
+    header('Content-Type: application/octet-stream');
+    header("Content-Transfer-Encoding: Binary"); 
+    header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\""); 
+    readfile($file_url);  }
+  else{
+  echo "Nepodaøilo se odeèíst PoodleCoiny z vaší penìženky. ";
   }
+}
 
+?>
