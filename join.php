@@ -1,11 +1,25 @@
 <?php
 session_start();
+
+$servername = "localhost";
+$username = "root";
+$conn = new mysqli($servername, $username);
+
+if ($conn->connect_error) {
+  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
+}
+
+
+
 header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
 
 if (isset($_SESSION['username'])) {
-  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $_SESSION["balance"] . "</div>" ;	
-} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	} 
+  $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
+  $result = $conn->query($sql);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . "</div>" ;	
+} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
 <script src='https://www.google.com/recaptcha/api.js'> </script>
@@ -14,6 +28,7 @@ if (isset($_SESSION['username'])) {
   <a href="upload.php">NAHRÁVÁNÍ</a>
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a class="active" href="join.php">REGISTRACE</a>
+  <a href="toplist.php">NEJBOHATŠÍ</a>
 </div>
  <p>
 REGISTRACE
@@ -84,23 +99,6 @@ Prokažte, že jste èlovìk:
 
 <?php
 
-        $passSalted = "aaaaaaaaa54321g";
-        $hashOptions = [
-          'cost' => 11,
-        ];
-        $resultHash = password_hash($passSalted, PASSWORD_BCRYPT, $hashOptions);
-
-
-
-$servername = "localhost";
-$username = "root";
-$conn = new mysqli($servername, $username);
-
-if ($conn->connect_error) {
-  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
-}
-
-
 
 if (isset($_POST['submit'])) {
   /* GOOGLE RECAPTCHA */
@@ -146,13 +144,25 @@ if (isset($_POST['submit'])) {
           echo "Špatnì zadané heslo, zadané heslo musí mít více jak 7 znakù, nesmí obsahovat mezery a nesmí být delší jak 25 znakù. <p>";
           $makeAccountOK = 4;
           }
+      
+      $checkUser = mysqli_num_rows($conn->query("SELECT username FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($nick) . "';"));
+      if($checkUser > 0){
+          echo "Uživatelské jméno je již obsazeno. <p>";
+          $makeAccountOK = 5;
+      } 
+      
+      $checkMail = mysqli_num_rows($conn->query("SELECT email FROM poodle.userlogininformation WHERE email = '" . htmlspecialchars($mail) . "';"));
+      if($checkMail > 0){
+          echo "Vámi zadaný email je již zaregistrován. <p>";
+          $makeAccountOK = 6;
+      }
           
       echo($makeAccountOK);
       
       /** pro vytvoøení databáze: 
        *CREATE DATABASE poodle CHARACTER SET utf8 COLLATE utf8_czech_ci;
-       *CREATE TABLE poodle.userLoginInformation(id INT PRIMARY KEY AUTO_INCREMENT NOT NULL , username VARCHAR(55) NOT NULL , passwordHash VARCHAR(100) NOT NULL , firstLastName VARCHAR(55) NOT NULL , email VARCHAR(55) NOT NULL , accountBalance INT NOT NULL) ENGINE = InnoDB; **/
-      
+       *CREATE TABLE poodle.userLoginInformation(id INT PRIMARY KEY AUTO_INCREMENT NOT NULL , username VARCHAR(55) NOT NULL , passwordHash VARCHAR(100) NOT NULL , firstLastName VARCHAR(55) NOT NULL , email VARCHAR(55) NOT NULL , accountBalance INT NOT NULL, isAdmin BOOLEAN NOT NULL DEFAULT 0); ENGINE = InnoDB;
+       *CREATE TABLE poodle.uploaded(id INT AUTO_INCREMENT NOT NULL, filename VARCHAR(100), authorid INT NOT NULL, PRIMARY KEY (id), FOREIGN KEY(authorid) REFERENCES userlogininformation(id)); ENGINE = InnoDB; **/
       if($makeAccountOK == 0){
       /** Zahashování funkce**/
         /** Do hashe pøidám salt, pomocí pøidání øetìzce mailu **/

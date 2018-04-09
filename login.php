@@ -1,12 +1,23 @@
 
 <?php
 session_start();
+$servername = "localhost";
+$username = "root";
+$conn = new mysqli($servername, $username);
+
+if ($conn->connect_error) {
+  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
+}
 
 header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
+
 if (isset($_SESSION['username'])) {
-  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $_SESSION["balance"] . "</div>" ;	
-} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	} 
+  $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
+  $result = $conn->query($sql);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . "</div>" ;	
+} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 
 
@@ -17,6 +28,7 @@ if (isset($_SESSION['username'])) {
   <a href="upload.php">NAHRÁVÁNÍ</a>
   <a class="active" href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
+  <a href="toplist.php">NEJBOHATŠÍ</a>
 </div>
 
  <p>
@@ -81,13 +93,7 @@ if (isset($_SESSION["username"])) {
   }
 
 
-$servername = "localhost";
-$username = "root";
-$conn = new mysqli($servername, $username);
 
-if ($conn->connect_error) {
-  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
-}
 
 
 
@@ -102,7 +108,7 @@ if (isset($_POST['submit'])) {
 
   if($count == 1){
     $resultHash = md5($input_password . $row['email']);
-    $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($input_login) . "' and passwordHash = '$resultHash';";
+    $sql = "SELECT accountBalance, id FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($input_login) . "' and passwordHash = '$resultHash';";
     /**echo $sql;**/
     $resultFinal = $conn->query($sql);
     $countFinal = mysqli_num_rows($resultFinal);
@@ -110,10 +116,11 @@ if (isset($_POST['submit'])) {
     
     if($countFinal == 1){
        $accBalance = $rowFinal['accountBalance'];
+       $accID = $rowFinal['id'];
        echo "Byl jste úspìšnì pøihlášen. Vítej: <font color='purple'> ". $input_login . "</font>!";
+       $_SESSION["id"] = $accID;
        $_SESSION["username"] = $input_login;
        $_SESSION["passwordHash"] = $resultHash; 
-       $_SESSION["balance"] = $accBalance;
     }
     else{
       echo "Zadal jste špatné uživatelské jméno nebo heslo.";    

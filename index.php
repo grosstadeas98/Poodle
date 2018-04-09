@@ -1,5 +1,12 @@
 <?php
 session_start();
+$servername = "localhost";
+$username = "root";
+$conn = new mysqli($servername, $username);
+
+if ($conn->connect_error) {
+  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
+}
 
 header("Content-Type: text/html; charset=windows-1250");
 
@@ -12,9 +19,13 @@ if(file_exists("./uploaded/") !== True) {
 
 
 }
+
 if (isset($_SESSION['username'])) {
-  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $_SESSION["balance"] . "</div>" ;	
-} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	} 
+  $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
+  $result = $conn->query($sql);
+  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . "</div>" ;	
+} else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
 <div class="menu">
@@ -22,6 +33,7 @@ if (isset($_SESSION['username'])) {
   <a href="upload.php">NAHRÁVÁNÍ</a>
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
+  <a href="toplist.php">NEJBOHATŠÍ</a>
 </div>
 <p>
 
