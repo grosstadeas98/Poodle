@@ -12,14 +12,18 @@ if ($conn->connect_error) {
 }
 
 
+
 if (isset($_SESSION['username'])) {
   $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
   $result = $conn->query($sql);
   $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . "</div>" ;	
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . " PoodleCoinù. </div>" ;		
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
+
+
 ?>
 <head>
+<title>Poodle: Nahrávání</title>
 <div class="menu">
   <a href="index.php">STAHOVÁNÍ</a>
   <a class="active" href="upload.php">NAHRÁVÁNÍ</a>
@@ -74,7 +78,11 @@ echo "<font size='18'>";
 echo 'Nahrávání souborù';
 echo "</font>";
 
-
+if (isset($_SESSION['username']) != TRUE) {
+  echo "<p>";
+  echo "Pro nahrávání musíte být pøihlášen!";
+  die;
+  }
 ?>
 
 <!DOCTYPE html>

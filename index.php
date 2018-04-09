@@ -24,10 +24,11 @@ if (isset($_SESSION['username'])) {
   $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
   $result = $conn->query($sql);
   $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . "</div>" ;	
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . " PoodleCoinù.</div>" ;	
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
+<title>Poodle</title>
 <div class="menu">
   <a class="active" href="index.php">STAHOVÁNÍ</a>
   <a href="upload.php">NAHRÁVÁNÍ</a>
@@ -92,12 +93,25 @@ if (isset($_SESSION['username'])) {
 
 
 <?php
+$servername = "localhost";
+$username = "root";
+$conn = new mysqli($servername, $username);
+
+if ($conn->connect_error) {
+  die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
+}
 
 /* FUNKCE PRO VÝPIS SOUBORÙ */
 
-function PrintFiles($useddir, $location) {
+function PrintFiles($useddir, $location, $db) {
     for ($i = 2; $i < count($useddir); $i++) {
-        echo("<p><a href='./uploaded/". $location . "/" . $useddir[$i] . "'> " . $useddir[$i] . "</a>") ;
+        $sqlAI = "SELECT authorid FROM poodle.uploaded WHERE filename = '" . $useddir[$i] . "';";
+        $resultAI = $db->query($sqlAI);
+        $rowAI = mysqli_fetch_array($resultAI,MYSQLI_ASSOC);
+        $sqlName = "SELECT username FROM poodle.userlogininformation WHERE id = ". $rowAI['authorid'] . ";";
+        $resultName = $db->query($sqlName);
+        $rowName = mysqli_fetch_array($resultName,MYSQLI_ASSOC);
+        echo("<p><a href='./uploaded/". $location . "/" . $useddir[$i] . "'> " . $useddir[$i] . "</a> , Autor souboru: " . $rowName['username'] . ", Cena souboru: 25 PoodleCoinù.") ;
 }}
 
 function MakeDir($folder)   {
@@ -128,49 +142,49 @@ echo "<p>";
 
 /* VÝPIS JEDNOTLIVÝCH KATEGORIÍ */
 echo "<div class='titles'>Èeský Jazyk</div>"; 
-PrintFiles($cejdir,"cej");
+PrintFiles($cejdir,"cej", $conn);
 
 echo "<div class='titles'>Anglický Jazyk</div>";
-PrintFiles($anjdir,"anj");
+PrintFiles($anjdir,"anj", $conn);
 
 echo "<div class='titles'>Matematika</div>";
-PrintFiles($matdir,"mat");
+PrintFiles($matdir,"mat", $conn);
 
 echo "<div class='titles'>Nìmecký jazyk</div>";
-PrintFiles($nejdir,"nej");
+PrintFiles($nejdir,"nej", $conn);
 
 echo "<div class='titles'>Ekonomika   </div>";
-PrintFiles($ekodir,"eko");
+PrintFiles($ekodir,"eko", $conn);
 
 echo "<div class='titles'>Poèítaèové sítì    </div>";
-PrintFiles($posdir,"pos");
+PrintFiles($posdir,"pos", $conn);
 
 echo "<div class='titles'>Technické vybavení   </div>";
-PrintFiles($tvydir,"tvy");
+PrintFiles($tvydir,"tvy", $conn);
 
 echo "<div class='titles'>Programování a databáze </div>";
-PrintFiles($paddir,"pad");
+PrintFiles($paddir,"pad", $conn);
 
 echo "<div class='titles'>Grafika a webdesign </div>";
-PrintFiles($grwdir,"grw");
+PrintFiles($grwdir,"grw", $conn);
 
 echo "<div class='titles'>Automatizace  </div>";
-PrintFiles($autdir,"aut");
+PrintFiles($autdir,"aut", $conn);
 
 echo "<div class='titles'>Cisco     </div>";
-PrintFiles($ciscodir,"cisco");
+PrintFiles($ciscodir,"cisco", $conn);
 
 echo "<div class='titles'>Praktické cvièení  </div>";
-PrintFiles($prcdir,"prc");
+PrintFiles($prcdir,"prc", $conn);
 
 echo "<div class='titles'>Operaèní systémy  </div>";
-PrintFiles($opsdir,"ops");
+PrintFiles($opsdir,"ops", $conn);
 
 echo "<div class='titles'>Aplikaèní software  </div>";
-PrintFiles($aswdir,"asw");
+PrintFiles($aswdir,"asw", $conn);
 
 echo "<div class='titles'>Ostatní/neuvedeno   </div>";
-PrintFiles($otherdir,"other");
+PrintFiles($otherdir,"other", $conn);
 
 echo "<p>";
 

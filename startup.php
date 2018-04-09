@@ -1,3 +1,4 @@
+<title>Poodle: Fix</title>
 <?php
 if(file_exists("./uploaded/") !== True) {
   mkdir("./uploaded/", 0700, True);

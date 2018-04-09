@@ -15,15 +15,16 @@ if (isset($_SESSION['username'])) {
   $sql = "SELECT accountBalance FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
   $result = $conn->query($sql);
   $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . "</div>" ;	
+  echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . " PoodleCoinù. </div>" ;	
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
+<title>Poodle: Nahrávání</title>
 <div class="menu">
   <a href="index.php">STAHOVÁNÍ</a>
   <a class="active" href="upload.php">NAHRÁVÁNÍ</a>
-  <a href="#login">PØIHLÁŠENÍ</a>
-  <a href="#join">REGISTRACE</a>
+  <a href="login.php">PØIHLÁŠENÍ</a>
+  <a href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
 </div>
 <style>
@@ -51,6 +52,7 @@ if (isset($_SESSION['username'])) {
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+    font-family: "Verdana", Helvetica, sans-serif;
 }
 
 /* Change the color of links on hover */
@@ -127,12 +129,25 @@ elseif ($uploadOk == 4) {
     echo "Omlouváme se, ale váš soubor nemùžeme nahrát.";
 }
 else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "<p>";
-        echo "Váš soubor ". basename( $_FILES["fileToUpload"]["name"]). " byl úspìšnì nahrán na server. Dìkujeme!";
+    $sql = "INSERT INTO poodle . uploaded (fileName, authorid) VALUES ('" . htmlspecialchars(basename( $_FILES["fileToUpload"]["name"])) . "', " . $_SESSION['id'] . ");";
+    if($conn->query($sql)){
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+          echo "<p>";
+          echo "Váš soubor ". basename( $_FILES["fileToUpload"]["name"]). " byl úspìšnì nahrán na server. Za nahrání souboru jste byl obmìnìn 75 PoodleCoinama. Dìkujeme!";
+          $rewarded = $row['accountBalance'] + 75;
+          $sqlReward = "UPDATE poodle.userlogininformation SET accountbalance = " . $rewarded . " WHERE id = " . $_SESSION['id'] . ";";
+          $conn->query($sqlReward);
+          }
+        else {
+          echo "<p>";
+          echo "Omlouváme se, ale nastala chyba pøi nahrávání vašeho souboru.";
+          $sqlDel = "DELETE FROM poodle.uploaded WHERE filename = '" . htmlspecialchars(basename( $_FILES["fileToUpload"]["name"])) . "';";
+          $conn->query($sqlDel);
+        }
     } else {
         echo "<p>";
-        echo "Omlouváme se, ale nastala chyba pøi nahrávání vašeho souboru.";
+        echo "Omlouváme se, ale nastala chyba pøi nahrávání záznamu o vašem souboru do databáze.";
+
     }
 }
 
