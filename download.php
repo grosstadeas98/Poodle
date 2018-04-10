@@ -102,20 +102,12 @@ if (isset($_SESSION['username']) != TRUE) {
 echo "Pro stažení souborù musíte být pøihlášen!";
 die; 
 }
-
-
-
-
-
-
 ?>
 <form action="" method="post">
-Jste si jistí, že chcete stáhnout soubor: <?php echo "<font color='purple'>" . $_GET['file'] . "</font>" ?> za 25 PoodleCoinù? <p>
+Jste si jistí, že chcete stáhnout soubor: <?php echo "<font color='purple'>" . $_GET['filename'] . "</font>" ?> za 25 PoodleCoinù? <p>
 <input type ="submit" name="submit" value="Ano">
 </form>
-
 <?php
-
 if (isset($_POST['submit'])) {
   $sql = "SELECT accountbalance FROM poodle.userlogininformation WHERE id = " . $_SESSION['id'] . ";";
   $result = $conn->query($sql);
@@ -123,17 +115,11 @@ if (isset($_POST['submit'])) {
   $paid = $row['accountbalance'] - 25;
   $sqlPaid = "UPDATE poodle.userlogininformation SET accountbalance = " . $paid . " WHERE id = " . $_SESSION['id'] . ";";
   if($conn->query($sqlPaid)){
-    $filename = $_GET['filename'];
-    echo $filename;
-    $file_url = './uploaded/' . $filename . "/";
-    echo $fileurl;
-    header('Content-Type: application/octet-stream');
-    header("Content-Transfer-Encoding: Binary"); 
-    header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\""); 
-    readfile($file_url);  }
-  else{
-  echo "Nepodaøilo se odeèíst PoodleCoiny z vaší penìženky. ";
+      $redirect = "godownload.php?fileloc=" . $_GET['filepath'] . "&file=" . $_GET['filename'];
+      header("Location: ". $redirect);
+      }
+  else{                                               
+    echo "Nepodaøilo se odeèíst PoodleCoiny z vaší penìženky. ";
   }
 }
-
 ?>

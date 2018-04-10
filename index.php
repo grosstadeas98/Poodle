@@ -115,7 +115,7 @@ function PrintFiles($useddir, $location, $db) {
         $sqlName = "SELECT username FROM poodle.userlogininformation WHERE id = ". $rowAI['authorid'] . ";";
         $resultName = $db->query($sqlName);
         $rowName = mysqli_fetch_array($resultName,MYSQLI_ASSOC);
-        echo("<p><a href='./download.php?filename=". $location . "/" . $useddir[$i] . "&file=" . $useddir[$i] . "' > " . $useddir[$i] . "</a> , Autor souboru: " . $rowName['username'] . ", Cena souboru: 25 PoodleCoinù.") ;
+        echo("<p><a href='./download.php?filepath=". $location . "/" . $useddir[$i] . "&filename=" . $useddir[$i] . "' > " . $useddir[$i] . "</a> , Autor souboru: " . $rowName['username'] . ", Cena souboru: 25 PoodleCoinù.") ;
 }}
 
 function MakeDir($folder)   {
