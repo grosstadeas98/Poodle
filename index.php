@@ -41,6 +41,11 @@ if (isset($_SESSION['username'])) {
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
   } 
+  if (isset($_SESSION['username'])){
+    if($_SESSION['isadmin'] != 0){
+      echo "<a href='admin.php'>ADMIN</a>" ;
+      }
+  }
   ?>
 </div>
 <p>

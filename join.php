@@ -34,6 +34,11 @@ if (isset($_SESSION['username'])) {
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
   } 
+  if (isset($_SESSION['username'])){
+    if($_SESSION['isadmin'] != 0){
+      echo "<a href='admin.php'>ADMIN</a>" ;
+      }
+  }
   ?>
 </div>
  <p>
@@ -171,11 +176,10 @@ if (isset($_POST['submit'])) {
           $makeAccountOK = 6;
       }
           
-      echo($makeAccountOK);
       
       /** pro vytvoøení databáze: 
        *CREATE DATABASE poodle CHARACTER SET utf8 COLLATE utf8_czech_ci;
-       *CREATE TABLE poodle.userLoginInformation(id INT PRIMARY KEY AUTO_INCREMENT NOT NULL , username VARCHAR(55) NOT NULL , passwordHash VARCHAR(100) NOT NULL , firstLastName VARCHAR(55) NOT NULL , email VARCHAR(55) NOT NULL , accountBalance INT NOT NULL, isAdmin BOOLEAN NOT NULL DEFAULT 0); ENGINE = InnoDB;
+       *CREATE TABLE poodle.userLoginInformation(id INT PRIMARY KEY AUTO_INCREMENT NOT NULL , username VARCHAR(55) NOT NULL , passwordHash VARCHAR(100) NOT NULL , firstLastName VARCHAR(55) NOT NULL , email VARCHAR(55) NOT NULL , accountBalance INT NOT NULL, isAdmin BOOLEAN NOT NULL DEFAULT 0, isBanned BOOLEAN NOT NULL DEFAULT 0); ENGINE = InnoDB;
        *CREATE TABLE poodle.uploaded(id INT AUTO_INCREMENT NOT NULL, filename VARCHAR(100), authorid INT NOT NULL, PRIMARY KEY (id), FOREIGN KEY(authorid) REFERENCES userlogininformation(id)); ENGINE = InnoDB; **/
       if($makeAccountOK == 0){
       /** Zahashování funkce**/

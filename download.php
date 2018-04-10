@@ -37,6 +37,16 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <?php
+  if (isset($_SESSION['username'])){
+  echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
+  } 
+  if (isset($_SESSION['username'])){
+    if($_SESSION['isadmin'] != 0){
+      echo "<a href='admin.php'>ADMIN</a>" ;
+      }
+  }
+  ?>
 </div>
 <p>
 

@@ -18,6 +18,8 @@ if (isset($_SESSION['username'])) {
   $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
   echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . " PoodleCoinù.</div>" ;	
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
+
+
 ?>
 
 
@@ -33,7 +35,13 @@ if (isset($_SESSION['username'])) {
   <?php
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
-  } 
+  }
+  
+  if (isset($_SESSION['username'])){
+    if($_SESSION['isadmin'] != 0){
+      echo "<a href='admin.php'>ADMIN</a>" ;
+      }
+  }
   ?>
 </div>
 
@@ -118,19 +126,25 @@ if (isset($_POST['submit'])) {
 
   if($count == 1){
     $resultHash = md5($input_password . $row['email']);
-    $sql = "SELECT accountBalance, id FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($input_login) . "' and passwordHash = '$resultHash';";
+    $sql = "SELECT accountBalance,isAdmin,id, isBanned FROM poodle.userlogininformation WHERE username = '" . htmlspecialchars($input_login) . "' and passwordHash = '$resultHash';";
     /**echo $sql;**/
     $resultFinal = $conn->query($sql);
     $countFinal = mysqli_num_rows($resultFinal);
     $rowFinal = mysqli_fetch_array($resultFinal,MYSQLI_ASSOC);
     
     if($countFinal == 1){
-       $accBalance = $rowFinal['accountBalance'];
-       $accID = $rowFinal['id'];
-       echo "Byl jste úspìšnì pøihlášen. Vítej: <font color='purple'> ". $input_login . "</font>!";
-       $_SESSION["id"] = $accID;
-       $_SESSION["username"] = $input_login;
-       $_SESSION["passwordHash"] = $resultHash; 
+       if($rowFinal['isBanned'] == 0){
+        $accBalance = $rowFinal['accountBalance'];
+        $isAdmin = $rowFinal['isAdmin'];
+        $accID = $rowFinal['id'];
+        echo "Byl jste úspìšnì pøihlášen. Vítej: <font color='purple'> ". $input_login . "</font>!";
+        $_SESSION["id"] = $accID;
+        $_SESSION["username"] = $input_login;
+        $_SESSION["passwordHash"] = $resultHash; 
+        $_SESSION["isadmin"] = $isAdmin;
+        } else{
+        echo "Váš úèet je právì zablokován, pro bližší informace nás kontaktujte. " ;
+        }
     }
     else{
       echo "Zadal jste špatné uživatelské jméno nebo heslo.";    

@@ -29,18 +29,15 @@ if (isset($_SESSION['username'])) {
   <a href="upload.php">NAHRÁVÁNÍ</a>
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
-  <a class="active" href="toplist.php">NEJBOHATŠÍ</a>
+  <a href="toplist.php">NEJBOHATŠÍ</a>
+
   <?php
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
   } 
-  
-  if (isset($_SESSION['username'])){
-    if($_SESSION['isadmin'] != 0){
-      echo "<a href='admin.php'>ADMIN</a>" ;
-      }
-  }
+
   ?>
+  <a class="active" class="logout" href="admin.php">ADMIN</a>
 </div>
 <p>
 
@@ -102,24 +99,33 @@ if (isset($_SESSION['username'])) {
 
 
 <?php
+if(isset($_SESSION['username']) != TRUE){
+  echo "Tato stránka je pouze pro pøihlášené uživatele! <p>";
+  die;
+}
 
+if($_SESSION['isadmin'] == 0){
+  echo "Tato stránka je urèená pro administrátory stránky! <p>";
+  die;
+}
 
-
-echo "<font size='18'>";
-echo 'Žebøíèek nejbohatších';
-echo "</font>";
-echo "<p>";
-/** všimnìme si že jsou odstranìni admini**/
-$sql = "SELECT username, accountbalance FROM poodle.userlogininformation WHERE isadmin = 0 ORDER BY accountbalance DESC;" ;
+$sql = "SELECT id, username, firstLastName, email, accountbalance, isadmin, isbanned FROM poodle.userlogininformation WHERE isadmin = 0;" ;
 $result = $conn->query($sql);
 $count = mysqli_num_rows($result);
 
-$row = $result->fetch_array(MYSQLI_ASSOC);
-echo  "1. <font size=5 color= 'purple'>". $row['username'] . "</font> , se stavem úètu: " . $row['accountbalance'] . " PoodleCoinù. <br>";
+echo "SPRÁVA UŽIVATELÙ <p>";
 
-for($i = 2; $i <= $count; $i++)
+for($i = 1; $i <= $count; $i++)
   {
   $row = $result->fetch_array(MYSQLI_ASSOC);
-  echo $i . ". ". $row['username'] . " , se stavem úètu: " . $row['accountbalance'] . " PoodleCoinù. <br>";
+  if($row['isbanned'] == 0){
+    echo $i . ". ID: ". $row['id'] . ", Nick:   " . $row['username'] . ", Jmeno: " . $row['firstLastName'] . ", Stav: " . $row['accountbalance'] . ", Banned: " . $row['isbanned'] . " <a href='ban.php?id=" . $row['id'] . "'>BAN </a><p>";
+    } else{
+    echo $i . ". ID: ". $row['id'] . ", Nick:   " . $row['username'] . ", Jmeno: " . $row['firstLastName'] . ", Stav: " . $row['accountbalance'] . ", Banned: " . $row['isbanned'] . " <a href='unban.php?id=" . $row['id'] . "'>UNBAN </a><p>";
+    }
   }
+  
+
+
+?>
 
