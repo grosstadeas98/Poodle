@@ -8,10 +8,12 @@ header("Content-Type: text/html; charset=windows-1250");
 if(isset($_SESSION['isadmin']) != TRUE){
   echo "Tato akce je urèena pouze pro pøihlášené uživatele a administrátory stránek.";
   die;
-  if($_SESSION['isadmin'] = 0){
-  echo "Tato akce je urèena pouze pro administrátory stránek.";  
-  }
 }
+if($_SESSION['isadmin'] != 1){
+  echo "Tato akce je urèena pouze pro administrátory stránek.";
+  die;  
+  }
+
 $id = $_GET['id'];
 $sql = "UPDATE poodle.userlogininformation SET isBanned = 1 WHERE id =" . $id . ";";
 if($conn->query($sql)){
