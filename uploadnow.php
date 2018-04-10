@@ -85,8 +85,8 @@ echo "</font>";
 echo "<p>";
 
 
-$target_dir = "uploaded/";
-$target_file = $target_dir . $_POST["cathegory"] . basename($_FILES["fileToUpload"]["name"]);
+$target_dir = "uploaded/";                          
+$target_file = $target_dir . $_POST["cathegory"] . StrTr(basename($_FILES["fileToUpload"]["name"]), "ÁÄÈÇÏÉÌËÍÒÓÖØŠÚÙÜÝŽáäèçïéìëíòóöøšúùüýž", "AACCDEEEINOORSTUUUYZaaccdeeeinoorstuuuyz");
 $uploadOk = 1;
 $loadedOk = 1;
 $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -138,7 +138,8 @@ elseif ($uploadOk == 4) {
     echo "Omlouváme se, ale váš soubor nemùžeme nahrát.";
 }
 else {
-    $sql = "INSERT INTO poodle . uploaded (fileName, authorid) VALUES ('" . htmlspecialchars(basename( $_FILES["fileToUpload"]["name"])) . "', " . $_SESSION['id'] . ");";
+    $nameOfFile = StrTr(basename($_FILES["fileToUpload"]["name"]), "ÁÄÈÇÏÉÌËÍÒÓÖØŠÚÙÜÝŽáäèçïéìëíòóöøšúùüýž", "AACCDEEEINOORSTUUUYZaaccdeeeinoorstuuuyz");
+    $sql = "INSERT INTO poodle . uploaded (fileName, authorid) VALUES ('" . htmlspecialchars($nameOfFile) . "', " . $_SESSION['id'] . ");";
     if($conn->query($sql)){
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
           echo "<p>";
