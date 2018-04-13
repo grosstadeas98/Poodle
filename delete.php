@@ -12,11 +12,10 @@ if ($conn->connect_error) {
 header("Content-Type: text/html; charset=windows-1250");
 echo "<a href='index.php'><img src='./poodle_logo2.bmp' height ='180' width '360'   /></a><br>\n";
 
-
+$sql = "SELECT accountBalance,isadmin FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
+$result = $conn->query($sql);
+$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 if (isset($_SESSION['username'])) {
-  $sql = "SELECT accountBalance,isadmin FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
-  $result = $conn->query($sql);
-  $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
   echo "<div class='status'>Pøihlášený uživatel: <font color='purple'>" . $_SESSION["username"] . "</font> ,stav úètu: ". $row['accountBalance'] . " PoodleCoinù.</div>" ;	
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 
@@ -97,46 +96,33 @@ if (isset($_SESSION['username'])) {
 <?php
 
 if(isset($_SESSION['username']) != TRUE){
-echo "<p>Pro zobrazení burzy se pøihlašte. ";
+echo "<p>Pro smazání inzerátu se pøihlašte. ";
 die;
 }
 
 
-?>
- <p>
-<font size = '18' color = 'purple'>Burza uèebnic </font>
- <p>
-<a href="addburza.php">Chci prodat uèebnici!</a>
 
-<p>
-<font size = '5'>Aktuální nabídka: </font>
-<br>
+$idBurza = htmlspecialchars($_GET['id']);
 
-<?php
-$sqlPrint = "SELECT id, name, description, contact, authorid FROM poodle.burza ORDER BY id DESC;" ;
-$resultPrint = $conn->query($sqlPrint);
-$countPrint = mysqli_num_rows($resultPrint);
-$sql = "SELECT accountBalance,isadmin FROM poodle.userlogininformation WHERE username = '" . $_SESSION['username'] . "';";
-$result = $conn->query($sql);
-$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+$sqlBurza = "SELECT authorid FROM poodle.burza WHERE id=" . $idBurza . ";";
+$resultBurza = $conn->query($sqlBurza);
+$rowBurza = $resultBurza->fetch_array(MYSQLI_ASSOC);
 
-for($i = 1; $i <= $countPrint; $i++){
-  $rowPrint = $resultPrint->fetch_array(MYSQLI_ASSOC);
-  echo "<p>Pøedmìt: <font color='purple'>" . $rowPrint['name'] . "</font>";
-  echo "<p>Popis: " . $rowPrint['description'];
-  echo "<p>Kontakt na prodávajícího: " . $rowPrint['contact'];
-  $authorID = $rowPrint['authorid'];
-  $sqlName = "SELECT username, isadmin FROM poodle.userlogininformation WHERE id = " . $authorID . ";";
-  $resultName = $conn->query($sqlName);
-  $rowName = $resultName->fetch_array(MYSQLI_ASSOC);
-  echo "<p>Autor inzerátu: " . $rowName['username'];
-  if($_SESSION['id'] == $authorID or $row['isadmin'] == 1){
-  echo "<p><a href='delete.php?id=" . $rowPrint['id'] . "'>Smazat inzerát. </a>";
+$autor = $rowBurza['authorid'];
+
+ 
+if( $_SESSION['id'] == $autor or $row['isadmin'] == 1){
+  $sqlDelete = "DELETE FROM poodle.burza WHERE id=" . $idBurza . ";";
+  if($conn->query($sqlDelete)){
+    echo "<p>Inzerát byl smazán v poøádku. ";
+  }else{
+  echo "<p>Nìkde se stala chyba. ";
   }
-  echo "<p>--------------------------------------------------------------------------------------------------------";
+  
+} else {
+  echo "<p>Pouze autor mùže mazat svùj inzerát. ";
 }
+
+
+
 ?>
-
-
-
-</head>
