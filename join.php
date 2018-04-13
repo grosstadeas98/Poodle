@@ -30,6 +30,7 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a class="active" href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <a href="burza.php">BURZA</a>
   <?php
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
@@ -176,18 +177,14 @@ if (isset($_POST['submit'])) {
           $makeAccountOK = 6;
       }
           
-      
-      /** pro vytvoøení databáze: 
-       *CREATE DATABASE poodle CHARACTER SET utf8 COLLATE utf8_czech_ci;
-       *CREATE TABLE poodle.userLoginInformation(id INT PRIMARY KEY AUTO_INCREMENT NOT NULL , username VARCHAR(55) NOT NULL , passwordHash VARCHAR(100) NOT NULL , firstLastName VARCHAR(55) NOT NULL , email VARCHAR(55) NOT NULL , accountBalance INT NOT NULL, isAdmin BOOLEAN NOT NULL DEFAULT 0, isBanned BOOLEAN NOT NULL DEFAULT 0); ENGINE = InnoDB;
-       *CREATE TABLE poodle.uploaded(id INT AUTO_INCREMENT NOT NULL, filename VARCHAR(100), authorid INT NOT NULL, PRIMARY KEY (id), FOREIGN KEY(authorid) REFERENCES userlogininformation(id)); ENGINE = InnoDB; **/
+ 
       if($makeAccountOK == 0){
       /** Zahashování funkce**/
         /** Do hashe pøidám salt, pomocí pøidání øetìzce mailu **/
         $resultHash = md5($pass . $mail);      
-        $sql = "INSERT INTO poodle . userlogininformation (username, passwordHash, firstLastName, email, accountBalance) VALUES ('" . htmlspecialchars($nick) . "' ,'" . $resultHash . "','" . htmlspecialchars($name, ENT_QUOTES,'ISO-8859-1') . "','" . htmlspecialchars($mail) ."', 100);"  ;
+        $sql = "INSERT INTO poodle . userlogininformation (username, passwordHash, firstLastName, email, accountBalance) VALUES ('" . htmlspecialchars($nick) . "' ,'" . $resultHash . "','" . htmlspecialchars($name, ENT_QUOTES,'ISO-8859-1') . "','" . htmlspecialchars($mail) ."', 0);"  ;
         if ($conn->query($sql) === TRUE) {
-          echo "Pøidání záznamu do databáze úspìšné";
+          echo "Registrace úspìšná. Vítejte na Poodle!";
         } else {
           echo "Chyba: " . $sql . "<br>" . $conn->error;
         }

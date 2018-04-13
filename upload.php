@@ -30,6 +30,7 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <a href="burza.php">BURZA</a>
   <?php
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
@@ -88,7 +89,7 @@ if (isset($_SESSION['username'])) {
 </style>
 </head>
 <?php
-echo "<font size='18'>";
+echo "<p><font size='18'>";
 echo 'Nahrávání souborù';
 echo "</font>";
 
@@ -104,7 +105,7 @@ if (isset($_SESSION['username']) != TRUE) {
 <body>
 
 <form action="uploadnow.php" method="post" enctype="multipart/form-data">
-    Vyber do které kategorie soubor pøidat:
+    Vyberte do které kategorie soubor pøidat:
     <p>
     <select name="cathegory">
       <option value="cej/">Èeský jazyk</option>
@@ -124,7 +125,7 @@ if (isset($_SESSION['username']) != TRUE) {
       <option value="other/">Ostatní/Neuvedeno</option>
     </select>
     <p>
-    Vyber soubor:
+    Vyberte soubor:
     <p>
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="Nahrát" name="submit">
@@ -132,5 +133,10 @@ if (isset($_SESSION['username']) != TRUE) {
     
 </form>
 
+Vámi nahrané soubory musí popisovat názvem svùj obsah.
+<p>
+Vámi nahrané soubory musí mít obsah, který popisuje jeho název. Zároveò soubor musí mít charakter studíjního materiálu.
+<p>
+Pokud opakovanì porušíte pøedcházející pravidla, váš úèet bude permanentnì zablokován.
 </body>
 </html>

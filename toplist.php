@@ -30,6 +30,7 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
   <a class="active" href="toplist.php">NEJBOHATŠÍ</a>
+  <a href="burza.php">BURZA</a>
   <?php
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;

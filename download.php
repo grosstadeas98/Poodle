@@ -37,6 +37,7 @@ if (isset($_SESSION['username'])) {
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <a href="burza.php">BURZA</a>
   <?php
   if (isset($_SESSION['username'])){
   echo "<a class='logout' href='logout.php'>ODHLÁSIT SE</a>" ;
@@ -122,6 +123,7 @@ if (isset($_POST['submit'])) {
   $sql = "SELECT accountbalance FROM poodle.userlogininformation WHERE id = " . $_SESSION['id'] . ";";
   $result = $conn->query($sql);
   $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+  if($row['accountbalance'] > 25){
   $paid = $row['accountbalance'] - 25;
   $sqlPaid = "UPDATE poodle.userlogininformation SET accountbalance = " . $paid . " WHERE id = " . $_SESSION['id'] . ";";
   if($conn->query($sqlPaid)){
@@ -130,6 +132,9 @@ if (isset($_POST['submit'])) {
       }
   else{                                               
     echo "Nepodaøilo se odeèíst PoodleCoiny z vaší penìženky. ";
+  }
+  }else{
+    echo "Pro stažení souboru nemáte dostatek PoodleCoinù";
   }
 }
 ?>

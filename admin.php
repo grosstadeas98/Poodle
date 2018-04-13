@@ -23,13 +23,14 @@ if (isset($_SESSION['username'])) {
 } else { echo "<div class='status'> Uživatel nepøihlášen. </div>" ;	}  
 ?>
 <head>
-<title>Poodle: Nejbohatší</title>
+<title>Poodle: Admin sekce</title>
 <div class="menu">
   <a href="index.php">STAHOVÁNÍ</a>
   <a href="upload.php">NAHRÁVÁNÍ</a>
   <a href="login.php">PØIHLÁŠENÍ</a>
   <a href="join.php">REGISTRACE</a>
   <a href="toplist.php">NEJBOHATŠÍ</a>
+  <a href="burza.php">BURZA</a>
 
   <?php
   if (isset($_SESSION['username'])){
