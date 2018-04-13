@@ -5,10 +5,11 @@ $username = "root";
 $conn = new mysqli($servername, $username);
 
 
+
 if ($conn->connect_error) {
   die("Pøipojení k MYSQL databázi selhalo, chyba: " . $conn->connect_error);
 }
-
+            
 header("Content-Type: text/html; charset=windows-1250");
 
 
@@ -99,6 +100,10 @@ if (isset($_SESSION['username'])) {
     border-bottom: 1px solid; 
     border-bottom-color: #A1A1A1;  
     }
+
+.logo {
+    text-align: center;
+    }
     
 /* KONEC MENU CSS */
 
@@ -144,10 +149,8 @@ $prcdir = MakeDir("prc");
 $opsdir = MakeDir("ops");
 $aswdir = MakeDir("asw");
 $otherdir = MakeDir("other");
-
-echo "<font size='18'>";
-echo 'Stahování souborù';
-echo "</font>";
+echo "<p>";
+echo '<div class="logo"><img src="graphics/download.png" alt="Stahovani souboru"></div>';
 echo "<p>";
 
 /* VÝPIS JEDNOTLIVÝCH KATEGORIÍ */

@@ -84,6 +84,10 @@ if (isset($_SESSION['username'])) {
     border-bottom-color: #A1A1A1;  
     }
     
+.logo {
+    text-align: center;
+    }
+    
 /* KONEC MENU CSS */
 
 
@@ -93,6 +97,10 @@ if (isset($_SESSION['username'])) {
 
 
 <?php
+echo "<p>";
+echo '<div class="logo"><img src="graphics/login.png" alt="Stahovani souboru"></div>';
+echo "<p>";
+
 if(isset($_SESSION['username']) != TRUE) {
   echo "Nastala chyba";
   die;

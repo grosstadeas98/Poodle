@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+
+
 $servername = "localhost";
 $username = "root";
 $conn = new mysqli($servername, $username);
@@ -40,11 +42,14 @@ if (isset($_SESSION['username'])) {
       echo "<a href='admin.php'>ADMIN</a>" ;
       }
   }
+  
+
   ?>
 </div>
- <p>
-REGISTRACE
- <p>
+<p>
+<div class="logo"><img src="graphics/join.png" alt="Stahovani souboru"></div>
+<p>
+
 <form action="" method="post"/>
 Vaše jméno a pøíjmení:
 <input type="text" name="name"/>
@@ -112,6 +117,10 @@ Prokažte, že jste èlovìk:
     background-color: #53146e;
     color: white;  
 }
+
+.logo {
+    text-align: center;
+    }
 
 
 

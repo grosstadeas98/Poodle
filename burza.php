@@ -93,8 +93,16 @@ if (isset($_SESSION['username'])) {
     color: white;  
 }
 
+.logo {
+    text-align: center;
+    }
+
 </style>
 <?php
+echo "<p>";
+echo '<div class="logo"><img src="graphics/burza.png" alt="Stahovani souboru"></div>';
+echo "<p>";
+
 
 if(isset($_SESSION['username']) != TRUE){
 echo "<p>Pro zobrazení burzy se pøihlašte. ";
@@ -103,9 +111,7 @@ die;
 
 
 ?>
- <p>
-<font size = '18' color = 'purple'>Burza uèebnic </font>
- <p>
+
 <a href="addburza.php">Chci prodat uèebnici!</a>
 
 <p>

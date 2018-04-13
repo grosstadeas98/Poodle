@@ -99,6 +99,10 @@ if (isset($_SESSION['username'])) {
     border-bottom: 1px solid; 
     border-bottom-color: #A1A1A1;  
     }
+
+.logo {
+    text-align: center;
+    }
     
 /* KONEC MENU CSS */
 
@@ -109,6 +113,10 @@ if (isset($_SESSION['username'])) {
 
 
 <?php
+echo "<p>";
+echo '<div class="logo"><img src="graphics/download.png" alt="Stahovani souboru"></div>';
+echo "<p>";
+
 if (isset($_SESSION['username']) != TRUE) {
 echo "Pro stažení souborù musíte být pøihlášen!";
 die; 

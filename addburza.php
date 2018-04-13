@@ -97,6 +97,10 @@ if (isset($_SESSION['username'])) {
     color: white;  
 }
 
+.logo {
+    text-align: center;
+    }
+
 </style>
 <?php
 
@@ -104,13 +108,12 @@ if(isset($_SESSION['username']) != TRUE){
 echo "<p>Tato stránka je pouze pro pøihlášené uživatele!";
 die;
 }
-
-
+echo "<p>";
+echo '<div class="logo"><img src="graphics/burza.png" alt="Stahovani souboru"></div>';
+echo "<p>";
 
 ?>
-<p>
-PØIDAT UÈEBNICI
-<p>
+
 
 <form action="addburza.php" method="post">
 Název prodávané uèebnice: <input id="namebox" type="text" name="name"><p>

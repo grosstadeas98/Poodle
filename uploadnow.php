@@ -80,14 +80,20 @@ if (isset($_SESSION['username'])) {
 .menu a.active {
     background-color: #53146e;
     color: white;  
+    
+
+
+
 }
+.logo {
+    text-align: center;
+    }
 
 </style>
 </head>
 <?php
-echo "<font size='18'>";
-echo 'Nahrávání souborù';
-echo "</font>";
+echo "<p>";
+echo '<div class="logo"><img src="graphics/upload.png" alt="Stahovani souboru"></div>';
 echo "<p>";
 
 

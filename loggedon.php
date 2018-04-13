@@ -85,8 +85,15 @@ if (isset($_SESSION['username'])) {
     color: white;  
 }
 
+.logo {
+    text-align: center;
+    }
+
 </style>
 <?php
+echo "<p>";
+  echo '<div class="logo"><img src="graphics/login.png" alt="Stahovani souboru"></div>';
+  echo "<p>";
 echo "<p>";
 echo "Jste již pøihlášen";
 echo "<p>";

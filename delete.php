@@ -92,8 +92,15 @@ if (isset($_SESSION['username'])) {
     color: white;  
 }
 
+.logo {
+    text-align: center;
+    }
+
 </style>
 <?php
+echo "<p>";
+echo '<div class="logo"><img src="graphics/burza.png" alt="Stahovani souboru"></div>';
+echo "<p>";
 
 if(isset($_SESSION['username']) != TRUE){
 echo "<p>Pro smazání inzerátu se pøihlašte. ";

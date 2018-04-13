@@ -45,10 +45,9 @@ if (isset($_SESSION['username'])) {
   }
   ?>
 </div>
-
- <p>
-PØIHLÁŠENÍ
- <p>
+<p>
+<div class="logo"><img src="graphics/login.png" alt="Stahovani souboru"></div>
+<p>
 <form id="login" action="login.php" method="post">
 <input type="hidden" name="submitted" id="submitted" value="1">
 Vaše pøihlašovací jméno:
@@ -104,8 +103,13 @@ Vaše heslo:
     color: white;  
 }
 
+.logo {
+    text-align: center;
+    }
+
 </style>
 <?php
+
 if (isset($_SESSION["username"])) {
   header("Location: loggedon.php");
   die;

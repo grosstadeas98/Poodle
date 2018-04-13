@@ -94,6 +94,12 @@ if (isset($_SESSION['username'])) {
     border-bottom-color: #A1A1A1;  
     }
     
+.logo {
+    text-align: center;
+    }
+    
+    
+    
 /* KONEC MENU CSS */
 
 
@@ -105,11 +111,10 @@ if (isset($_SESSION['username'])) {
 <?php
 
 
+  echo "<p>";
+  echo '<div class="logo"><img src="graphics/richest.png" alt="Stahovani souboru"></div>';
+  echo "<p>";
 
-echo "<font size='18'>";
-echo 'Žebøíèek nejbohatších';
-echo "</font>";
-echo "<p>";
 /** všimnìme si že jsou odstranìni admini**/
 $sql = "SELECT username, accountbalance FROM poodle.userlogininformation WHERE isadmin = 0 ORDER BY accountbalance DESC;" ;
 $result = $conn->query($sql);
