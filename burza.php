@@ -114,17 +114,24 @@ html *
 
 }
 
+.notlogged{
+    text-align: center;
+}
+
 </style>
 <?php
 echo "<p>";
 echo '<div class="logo"><img src="graphics/burza.png" alt="Stahovani souboru"></div>';
 echo "<p>";
-echo  '<div class="printout">';
 
+echo  '<div class="notlogged">';
 if(isset($_SESSION['username']) != TRUE){
 echo "<p>Pro zobrazení burzy se pøihlašte. ";
 die;
+
 }
+echo '</div>' ;
+echo  '<div class="printout">';
 
 
 ?>
