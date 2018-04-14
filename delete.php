@@ -101,12 +101,19 @@ html *
 .logo {
     text-align: center;
     }
+    
+.printout {
+    text-align: center;
+}
 
 </style>
 <?php
+
 echo "<p>";
 echo '<div class="logo"><img src="graphics/burza.png" alt="Stahovani souboru"></div>';
 echo "<p>";
+
+echo "<div class='printout'>";
 
 if(isset($_SESSION['username']) != TRUE){
 echo "<p>Pro smazání inzerátu se pøihlašte. ";
@@ -139,3 +146,4 @@ if( $_SESSION['id'] == $autor or $row['isadmin'] == 1){
 
 
 ?>
+</div>

@@ -109,6 +109,10 @@ html *
 .logo {
     text-align: center;
     }
+
+.download {
+    text-align: center;
+}
     
 /* KONEC MENU CSS */
 
@@ -117,7 +121,7 @@ html *
 
 </head>
 
-
+<div class="download">
 <?php
 echo "<p>";
 echo '<div class="logo"><img src="graphics/download.png" alt="Stahovani souboru"></div>';
@@ -128,11 +132,14 @@ echo "Pro stažení souborù musíte být pøihlášen!";
 die; 
 }
 ?>
+</div>
+<div class='download'>
 <form action="" method="post">
 Jste si jistí, že chcete stáhnout soubor: <?php echo "<font color='purple'>" . $_GET['filename'] . "</font>" ?> za 25 PoodleCoinù? <p>
 <input type ="submit" name="submit" value="Ano">
 </form>
 <?php
+
 if (isset($_POST['submit'])) {
   $sql = "SELECT accountbalance FROM poodle.userlogininformation WHERE id = " . $_SESSION['id'] . ";";
   $result = $conn->query($sql);
@@ -151,4 +158,5 @@ if (isset($_POST['submit'])) {
     echo "Pro stažení souboru nemáte dostatek PoodleCoinù";
   }
 }
+echo "</div>";
 ?>

@@ -98,10 +98,21 @@ html *
 .logo {
     text-align: center;
     }
+    
+.select {
+    text-align: center;
+}
+
+.warning {
+    margin-top: 50px;
+    margin-left: 15px;
+}
 
 </style>
 </head>
+<div class='select'>
 <?php
+
 echo "<p>";
 echo '<div class="logo"><img src="graphics/upload.png" alt="Stahovani souboru"></div>';
 echo "<p>";
@@ -112,11 +123,12 @@ if (isset($_SESSION['username']) != TRUE) {
   die;
   }
 ?>
+</div>
 
 <!DOCTYPE html>
 <html>
 <body>
-
+<div class="select">
 <form action="uploadnow.php" method="post" enctype="multipart/form-data">
     Vyberte do které kategorie soubor pøidat:
     <p>
@@ -145,11 +157,14 @@ if (isset($_SESSION['username']) != TRUE) {
   
     
 </form>
-
+</div>
+<div class="warning">
 Vámi nahrané soubory musí popisovat názvem svùj obsah.
 <p>
 Vámi nahrané soubory musí mít obsah, který popisuje jeho název. Zároveò soubor musí mít charakter studíjního materiálu.
 <p>
 Pokud opakovanì porušíte pøedcházející pravidla, váš úèet bude permanentnì zablokován.
+</div>
 </body>
+
 </html>

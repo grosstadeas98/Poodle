@@ -50,6 +50,7 @@ if (isset($_SESSION['username'])) {
 <div class="logo"><img src="graphics/join.png" alt="Stahovani souboru"></div>
 <p>
 
+<div class='printout'>
 <form action="" method="post"/>
 Vaše jméno a pøíjmení:
 <input type="text" name="name"/>
@@ -69,6 +70,7 @@ Prokažte, že jste èlovìk:
 <div class="g-recaptcha" data-sitekey="6LfH1EkUAAAAAAzJSozvSTJ9lKLW7359kJh36fXo"></div>
 <input type="submit" name="submit" value="Potvrdit"/>
 </form>
+</div>
 </head>
 <style>
 /* Add a black background color to the top navigation */
@@ -125,7 +127,11 @@ html *
 
 .logo {
     text-align: center;
-    }
+    } 
+
+.printout{
+    margin-left: 15px;
+}
 
 
 
@@ -133,7 +139,7 @@ html *
 
 <?php
 
-
+echo "<div class = 'printout'>" ;
 if (isset($_POST['submit'])) {
   /* GOOGLE RECAPTCHA */
   $secretKey = '6LfH1EkUAAAAACigDzk4Y_3AQdv6DSS7CW8DNIYb';
@@ -216,7 +222,7 @@ if (isset($_POST['submit'])) {
     echo("Potvrïte že nejste robot pomocí reCAPTCHA.") ;
     die;
   }
-  
+echo "</div>";
  $conn->close();  
  }
 

@@ -94,6 +94,10 @@ html *
     text-align: center;
     }
     
+.printout {
+    text-align: center;
+}
+    
 /* KONEC MENU CSS */
 
 
@@ -101,7 +105,7 @@ html *
 
 </head>
 
-
+<div class='printout'>
 <?php
 echo "<p>";
 echo '<div class="logo"><img src="graphics/login.png" alt="Stahovani souboru"></div>';
@@ -117,4 +121,5 @@ echo "Nyní jste odhlášen.";
 
 
 ?>
+</div>
 

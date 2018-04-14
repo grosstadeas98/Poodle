@@ -95,6 +95,10 @@ html *
     text-align: center;
     }
 
+.upload{  
+    text-align: center;
+}
+
 </style>
 </head>
 <?php
@@ -102,7 +106,7 @@ echo "<p>";
 echo '<div class="logo"><img src="graphics/upload.png" alt="Stahovani souboru"></div>';
 echo "<p>";
 
-
+echo "<div class='upload'>";
 $target_dir = "uploaded/";                          
 $target_file = $target_dir . $_POST["cathegory"] . StrTr(basename($_FILES["fileToUpload"]["name"]), "ÁÄÈÇÏÉÌËÍÒÓÖØŠÚÙÜİáäèçïéìëíòóöøšúùüı", "AACCDEEEINOORSTUUUYZaaccdeeeinoorstuuuyz");
 $uploadOk = 1;
@@ -188,8 +192,8 @@ else {
 <body>
 
 <form action="upload.php" method="post">
-    <input type="submit" value="Zpìt" name="aaaaaaa">
+    <input type="submit" value="Zpìt">
 </form>
-
+</div>
 </body>
 </html>         

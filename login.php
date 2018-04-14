@@ -48,16 +48,18 @@ if (isset($_SESSION['username'])) {
 <p>
 <div class="logo"><img src="graphics/login.png" alt="Stahovani souboru"></div>
 <p>
+<div class="login">
 <form id="login" action="login.php" method="post">
 <input type="hidden" name="submitted" id="submitted" value="1">
-Vaše pøihlašovací jméno:
+Vaše pøihlašovací jméno: <br>
 <input type="text" name="name" id="name" maxlenght ="50">
  <p>
-Vaše heslo:
+Vaše heslo: <br>
 <input type="password" name="pass" id="pass" maxlenght ="20">
  <p>
  <input type="submit" name="submit" value="Potvrdit">
 </form>
+</div>
 
 <style>
 /* Add a black background color to the top navigation */
@@ -112,8 +114,13 @@ html *
 .logo {
     text-align: center;
     }
+    
+.login{
+    text-align: center;
+}
 
 </style>
+<div class="login">
 <?php
 
 if (isset($_SESSION["username"])) {
@@ -167,6 +174,6 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
-
+</div>
 
 </head>

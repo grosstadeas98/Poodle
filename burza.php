@@ -109,12 +109,17 @@ html *
 
 }
 
+.printout{
+    margin-left: 15px;
+
+}
+
 </style>
 <?php
 echo "<p>";
 echo '<div class="logo"><img src="graphics/burza.png" alt="Stahovani souboru"></div>';
 echo "<p>";
-
+echo  '<div class="printout">';
 
 if(isset($_SESSION['username']) != TRUE){
 echo "<p>Pro zobrazení burzy se pøihlašte. ";
@@ -154,7 +159,7 @@ for($i = 1; $i <= $countPrint; $i++){
   echo "</div>";
 }
 ?>
-
+</div>
 
 
 </head>

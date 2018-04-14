@@ -98,11 +98,11 @@ html *
 </style>
 <?php
 echo "<p>";
-  echo '<div class="logo"><img src="graphics/login.png" alt="Stahovani souboru"></div>';
+  echo '<div class="logo"><img src="graphics/login.png" alt="Stahovani souboru">';
   echo "<p>";
 echo "<p>";
 echo "Jste již pøihlášen";
-echo "<p>";
+echo "<p></div>";
 
 if (isset($_POST["submit"])) {
   session_unset();
@@ -111,9 +111,11 @@ if (isset($_POST["submit"])) {
 
 }
 ?>
+<div class="logo">
 <form action="" method="post"/>
 <input type="submit" name="submit" value="Odhlásit se"/>
 </form>
+</div>
 <?php
 
 

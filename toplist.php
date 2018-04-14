@@ -103,6 +103,10 @@ html *
 .logo {
     text-align: center;
     }
+
+.printout{
+    margin-left: 15px;    
+}
     
     
     
@@ -120,7 +124,8 @@ html *
   echo "<p>";
   echo '<div class="logo"><img src="graphics/richest.png" alt="Stahovani souboru"></div>';
   echo "<p>";
-
+  
+echo "<div class='printout'>";
 /** všimnìme si že jsou odstranìni admini**/
 $sql = "SELECT username, accountbalance FROM poodle.userlogininformation WHERE isadmin = 0 ORDER BY accountbalance DESC;" ;
 $result = $conn->query($sql);
@@ -135,3 +140,5 @@ for($i = 2; $i <= $count; $i++)
   echo $i . ". ". $row['username'] . " , se stavem úètu: " . $row['accountbalance'] . " PoodleCoinù. <br>";
   }
 
+?>
+</div>

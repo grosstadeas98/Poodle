@@ -101,15 +101,22 @@ html *
 }
 
 .titles {
-    font-size: 25px;
     font-family: "Verdana", Helvetica, sans-serif;
     border-bottom: 1px solid; 
-    border-bottom-color: #A1A1A1;  
+    border-bottom-color: #A1A1A1; 
+    margin-top: 7px;
     }
 
 .logo {
     text-align: center;
     }
+    
+.printout {
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+    
+
     
 /* KONEC MENU CSS */
 
@@ -123,6 +130,11 @@ html *
 
 
 /* FUNKCE PRO VÝPIS SOUBORÙ */
+echo "<p>";
+echo '<div class="logo"><img src="graphics/download.png" alt="Stahovani souboru"></div>';
+echo "<p>";
+
+
 
 function PrintFiles($useddir, $location, $db) {
     for ($i = 2; $i < count($useddir); $i++) {
@@ -132,7 +144,7 @@ function PrintFiles($useddir, $location, $db) {
         $sqlName = "SELECT username FROM poodle.userlogininformation WHERE id = ". $rowAI['authorid'] . ";";
         $resultName = $db->query($sqlName);
         $rowName = mysqli_fetch_array($resultName,MYSQLI_ASSOC);
-        echo("<p><a href='./download.php?filepath=". $location . "/" . $useddir[$i] . "&filename=" . $useddir[$i] . "' > " . $useddir[$i] . "</a> , Autor souboru: " . $rowName['username'] . ", Cena souboru: 25 PoodleCoinù.") ;
+        echo("<p><div class='printout'><a href='./download.php?filepath=". $location . "/" . $useddir[$i] . "&filename=" . $useddir[$i] . "' > " . $useddir[$i] . "</a> , Autor souboru: " . $rowName['username'] . ", Cena souboru: 25 PoodleCoinù. </div>") ;
 }}
 
 function MakeDir($folder)   {
@@ -155,9 +167,7 @@ $prcdir = MakeDir("prc");
 $opsdir = MakeDir("ops");
 $aswdir = MakeDir("asw");
 $otherdir = MakeDir("other");
-echo "<p>";
-echo '<div class="logo"><img src="graphics/download.png" alt="Stahovani souboru"></div>';
-echo "<p>";
+
 
 /* VÝPIS JEDNOTLIVÝCH KATEGORIÍ */
 echo "<div class='titles'>Èeský Jazyk</div>"; 
@@ -206,7 +216,6 @@ echo "<div class='titles'>Ostatní/neuvedeno   </div>";
 PrintFiles($otherdir,"other", $conn);
 
 echo "<p>";
-
 
 
 

@@ -108,6 +108,10 @@ html *
     text-align: center;
     }
 
+.printout {
+    text-align: center;
+}
+
 </style>
 <?php
 
@@ -121,11 +125,11 @@ echo "<p>";
 
 ?>
 
-
+<div class="printout">
 <form action="addburza.php" method="post">
-Název prodávané uèebnice: <input id="namebox" type="text" name="name"><p>
-Popis: <input id="textbox" type="text" name="text" ><p>
-Kontakt na prodejce: <input id="contactbox" type="text" name="contact" ><p>
+Název prodávané uèebnice:<br> <input id="namebox" type="text" name="name"><p>
+Popis:<br>  <input id="textbox" type="text" name="text" ><p>
+Kontakt na prodejce:<br>  <input id="contactbox" type="text" name="contact" ><p>
 <input type="submit" name="submit" value="Odeslat">
 
 
@@ -177,3 +181,4 @@ if(isset($_POST['submit'])){
   }
 }
 ?>
+</div>
