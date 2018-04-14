@@ -51,6 +51,12 @@ if (isset($_SESSION['username'])) {
 
 <style>
 /* Add a black background color to the top navigation */
+html *
+{
+   font-size: 17px !important;
+   font-family: "Verdana", Helvetica, sans-serif !important;
+}
+
 .menu a.logout {
     float: right;
     }
@@ -96,6 +102,12 @@ if (isset($_SESSION['username'])) {
 .logo {
     text-align: center;
     }
+    
+.book {
+    border-bottom: 1px solid; 
+    border-bottom-color: #A1A1A1;
+
+}
 
 </style>
 <?php
@@ -135,11 +147,11 @@ for($i = 1; $i <= $countPrint; $i++){
   $sqlName = "SELECT username, isadmin FROM poodle.userlogininformation WHERE id = " . $authorID . ";";
   $resultName = $conn->query($sqlName);
   $rowName = $resultName->fetch_array(MYSQLI_ASSOC);
-  echo "<p>Autor inzerátu: " . $rowName['username'];
+  echo "<div class='book'><p>Autor inzerátu: " . $rowName['username'];
   if($_SESSION['id'] == $authorID or $row['isadmin'] == 1){
   echo "<p><a href='delete.php?id=" . $rowPrint['id'] . "'>Smazat inzerát. </a>";
   }
-  echo "<p>--------------------------------------------------------------------------------------------------------";
+  echo "</div>";
 }
 ?>
 

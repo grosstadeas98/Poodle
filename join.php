@@ -72,6 +72,11 @@ Prokažte, že jste èlovìk:
 </head>
 <style>
 /* Add a black background color to the top navigation */
+html *
+{
+   font-size: 17px !important;
+   font-family: "Verdana", Helvetica, sans-serif !important;
+}
 
 .status {
     text-align: right;

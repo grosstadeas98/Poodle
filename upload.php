@@ -44,6 +44,13 @@ if (isset($_SESSION['username'])) {
 </div>
 <style>
 /* Add a black background color to the top navigation */
+html *
+{
+   font-size: 17px !important;
+   font-family: "Verdana", Helvetica, sans-serif !important;
+}
+
+
 .menu a.logout {
     float: right;
     }
